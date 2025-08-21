@@ -45,6 +45,9 @@ class AuthController extends Controller
                 "password" => $data->password,
             ];
 
+            session(["db_config" => $dbConfig]);
+
+            
             Config::set("database.connections.conta", [
                 "driver" => "mysql",
                 "host" => $dbConfig["host"],
@@ -66,7 +69,7 @@ class AuthController extends Controller
 
             session(["usuario_autenticado" => $usuario]);
 
-            dd($usuario);
+            // dd($usuario);
     
             return redirect("/conta");
         } catch (\Exception $e) {
