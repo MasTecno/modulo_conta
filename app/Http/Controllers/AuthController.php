@@ -46,7 +46,7 @@ class AuthController extends Controller
             ];
 
             session(["db_config" => $dbConfig]);
-
+            session(["indicadores" => $data->indicadores]);
             
             Config::set("database.connections.conta", [
                 "driver" => "mysql",

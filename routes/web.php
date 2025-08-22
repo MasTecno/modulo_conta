@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Middleware\ConfigConexionDB;
 use App\Http\Middleware\VerificarSesionUsuario;
@@ -33,6 +34,8 @@ Route::middleware(VerificarSesionUsuario::class)->group(function () {
         Route::get("/listar-representantes", [EmpresasController::class, "getRepre"])->name("getRepresentantes");
         Route::patch("/representantes/update/{idRepre}", [EmpresasController::class, "updateRepre"])->name("repre.update");
         Route::delete("/representantes/delete/{idRepre}", [EmpresasController::class, "deleteRepre"])->name("repre.delete");
+        
+        Route::get("/empresa/{uuid}", [EmpresaController::class, "index"])->name("empresa.index");
     });
 
     

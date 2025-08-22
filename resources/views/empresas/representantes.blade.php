@@ -36,6 +36,11 @@
                     <span id="textoGrabar">Grabar</span>
                 </button>
 
+                <a href="{{ route("empresas.index") }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-all duration-200 font-medium text-sm shadow-sm">
+                    <i class="fa-solid fa-building mr-2"></i>
+                    Empresas
+                </a>
+
             </div>
         </div>
     </div>
@@ -155,15 +160,6 @@
                 <div>
                     <h2 class="text-xl font-semibold text-gray-900">Representantes Creados</h2>
                     <p class="text-sm text-gray-600">Representantes ingresados en el sistema</p>
-                </div>
-            </div>
-            <div class="flex items-center space-x-2">
-                <div class="relative">
-                    <input type="text" id="searchEmpresa" placeholder="Buscar empresa..." 
-                           class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-                        <i class="fa-solid fa-search text-gray-400"></i>
-                    </div>
                 </div>
             </div>
         </div>

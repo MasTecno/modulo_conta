@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DOMDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class EmpresasController extends Controller
 {
@@ -184,6 +185,7 @@ class EmpresasController extends Controller
         $nuevaEmpresa = DB::connection("conta")
         ->table("empresas")
         ->insertGetId([
+            "uuid" => Str::uuid(),
             "rut" => $rut,
             "razon_social" => $request->razonSocial,
             "fecha_constitucion" => $request->fechaConst,
@@ -217,7 +219,7 @@ class EmpresasController extends Controller
 
         $empresas = DB::connection("conta")->table("empresas as emp")
         ->join("plan_cuenta as pla", "emp.id_plan_cuenta", "=", "pla.id")
-        ->select("emp.id", "emp.rut", "emp.razon_social", "emp.fecha_constitucion", "emp.rut_repre", "emp.repre_legal", 
+        ->select("emp.id", "emp.uuid", "emp.rut", "emp.razon_social", "emp.fecha_constitucion", "emp.rut_repre", "emp.repre_legal", 
         "emp.direccion", "emp.giro", "emp.ciudad", "emp.correo", "emp.id_plan_cuenta", "pla.nombre")
         ->get();
 

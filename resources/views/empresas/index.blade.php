@@ -243,61 +243,61 @@
 
     <div class="container mx-auto md:px-1 sm:px-6 py-1 max-w-7xl">
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 mb-8 overflow-hidden">
-        <div class="bg-white px-6 py-4 border-b border-gray-200">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                    <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mr-4">
-                        <i class="fa-solid fa-list text-slate-600 text-lg"></i>
+            <div class="bg-white px-6 py-4 border-b border-gray-200">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fa-solid fa-list text-slate-600 text-lg"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-900">Empresas Creadas</h2>
+                            <p class="text-sm text-gray-600">Empresas registradas en el sistema</p>
+                        </div>
                     </div>
-                    <div>
-                        <h2 class="text-xl font-semibold text-gray-900">Empresas Creadas</h2>
-                        <p class="text-sm text-gray-600">Empresas registradas en el sistema</p>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <div class="relative">
-                        <input type="text" id="searchEmpresa" placeholder="Buscar empresa..." 
-                               class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
-                        <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-                            <i class="fa-solid fa-search text-gray-400"></i>
+                    <div class="flex items-center space-x-2 w-full sm:w-auto">
+                        <div class="relative w-full">
+                            <input type="text" id="searchEmpresa" placeholder="Buscar empresa..." 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                                <i class="fa-solid fa-search text-gray-400"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs uppercase bg-gray-50 text-gray-600">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            RUT
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Razón Social
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Dirección
-                        </th>
-                        {{-- <th scope="col" class="px-6 py-3">
-                            Giro
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Ciudad
-                        </th> --}}
-                        <th scope="col" class="px-6 py-3">
-                            Plan Activo
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Acción
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="tablaEmpresas">
-                    
-                </tbody>
-            </table>
-         </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs uppercase bg-gray-50 text-gray-600">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                RUT
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Razón Social
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Dirección
+                            </th>
+                            {{-- <th scope="col" class="px-6 py-3">
+                                Giro
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Ciudad
+                            </th> --}}
+                            <th scope="col" class="px-6 py-3">
+                                Plan Activo
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Acción
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaEmpresas">
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -624,9 +624,13 @@
 
                             tr.addEventListener("click", function() {
                                 console.log("Cargando datos");
-
+                                const rutInput = document.getElementById("rut");
                                 document.getElementById("idEmpresa").value = emp.id;
-                                document.getElementById("rut").value = formatearRut(emp.rut);
+                                rutInput.value = formatearRut(emp.rut);
+                                rutInput.classList.remove("bg-white");
+                                rutInput.classList.add("bg-gray-200");
+                                rutInput.readOnly = true;
+
                                 document.getElementById("razonSocial").value = emp.razon_social;
                                 document.getElementById("fechaConst").value = emp.fecha_constitucion;
                                 document.getElementById("rutRepre").value = emp.rut_repre;
@@ -688,7 +692,12 @@
         
         function limpiarFormulario() {
             document.getElementById("idEmpresa").value = "";
-            document.getElementById("rut").value = "";
+            const rutInput = document.getElementById("rut");
+            rutInput.classList.remove("bg-gray-200");
+            rutInput.classList.add("bg-white");
+            rutInput.readOnly = false;
+            rutInput.value = "";
+            
             document.getElementById("claveSii").value = "";
             document.getElementById("razonSocial").value = "";
             document.getElementById("fechaConst").value = "";
