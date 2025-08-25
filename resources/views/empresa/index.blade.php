@@ -20,7 +20,7 @@
     
     <div class="bg-gradient-to-r from-blue-600 to-purple-700 text-white shadow-md">
         <div class="container mx-auto px-6 py-3.5">
-            <div class="flex justify-between items-center">
+            <div class="flex flex-col gap-3 md:flex-row md:gap-0 justify-between items-center">
                 <div>
                     <h1 class="text-2xl font-bold">
                         <i class="fas fa-building mr-3"></i>

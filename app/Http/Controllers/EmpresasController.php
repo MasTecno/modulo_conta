@@ -466,4 +466,19 @@ class EmpresasController extends Controller
 
     }
 
+    public function buscarEmpresa($filtro) {
+
+        $empresas = DB::connection("conta")->table("empresas as emp")
+        ->join("plan_cuenta as pla", "emp.id_plan_cuenta", "=", "pla.id")
+        ->select("emp.id", "emp.uuid", "emp.rut", "emp.razon_social", "emp.fecha_constitucion", "emp.rut_repre", "emp.repre_legal", 
+        "emp.direccion", "emp.giro", "emp.ciudad", "emp.correo", "emp.id_plan_cuenta", "pla.nombre")
+        ->whereLike("emp.razon_social", "%$filtro%")->get();
+
+        return response()->json([
+            "success" => true,
+            "empresas" => $empresas
+        ]);
+
+    }
+
 }

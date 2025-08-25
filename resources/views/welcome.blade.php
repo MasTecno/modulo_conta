@@ -9,19 +9,19 @@
     <!-- Header Section -->
     <div class="bg-gradient-to-r from-blue-600 to-purple-700 text-white">
         <div class="container mx-auto px-6 py-5">
-            <div class="flex justify-between items-center">
+            <div class="flex flex-col gap-3 md:flex-row md:gap-0 justify-between items-center">
                 <div>
-                    <h1 class="text-2xl font-bold mb-2">
+                    <h1 class="text-2xl font-bold text-center md:!text-start mb-2">
                         <i class="fas fa-calculator mr-3"></i>
                         MasContable
                     </h1>
                     <p class="text-blue-100 text-md">Gestión integral de empresas y contabilidad</p>
                 </div>
-                <div class="text-right">
+                <div class="text-right flex justify-center items-center gap-3">
                     @php
                         $usuario = session("usuario_autenticado");
                     @endphp
-                    <div class="bg-white/20 backdrop-blur-sm rounded-lg p-2">
+                    <div class="p-2">
                         <div class="flex items-center">
                             <div class="w-10 h-10 bg-white/30 rounded-full flex items-center justify-center mr-3">
                                 <i class="fas fa-user text-white"></i>
@@ -30,6 +30,14 @@
                                 <p class="font-semibold text-sm">{{ $usuario->nombre }} {{ $usuario->ape_paterno }}</p>
                             </div>
                         </div>
+                    </div>
+                    <div class="bg-white/20 hover:bg-white/10 transition-all duration-200 backdrop-blur-sm rounded-lg p-2">
+                        <form method="POST" action="{{ route("logout") }}">
+                            @csrf
+                            <button type="submit" class="cursor-pointer text-sm hover:text-red-500 transition-all duration-200">
+                                <i class="fa-solid fa-door-open mr-2"></i>Salir
+                            </button>    
+                        </form>
                     </div>
                 </div>
             </div>
@@ -54,7 +62,7 @@
                         </a>
                     </div>
                     <div class="w-full">
-                        <input type="text" id="searchEmpresa" placeholder="Buscar empresa..." 
+                        <input type="text" id="buscarEmpresa1" placeholder="Buscar empresa..." 
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">    
                     </div>
                 </div>
@@ -69,7 +77,7 @@
                     </div>
                     
                     <div class="w-4/12">
-                        <input type="text" id="searchEmpresa" placeholder="Buscar empresa..." 
+                        <input type="text" id="buscarEmpresa2" placeholder="Buscar empresa..." 
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">    
                     </div>
                     <div class="flex justify-center items-center gap-5">
@@ -130,9 +138,9 @@
                     <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-building text-3xl text-gray-400"></i>
                     </div>
-                    <h3 class="text-lg font-medium text-gray-900 mb-2">No hay empresas registradas</h3>
-                    <p class="text-gray-500 mb-6">Comienza agregando tu primera empresa al sistema.</p>
-                    <a href="http://127.0.0.1:8000/dashboard" 
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">No hay registros</h3>
+                    <p class="text-gray-500 mb-6">Puedes añadir la empresa al sistema.</p>
+                    <a href="{{ route("empresas.index") }}" 
                        class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fas fa-plus mr-2"></i>
                         Agregar Empresa
@@ -161,41 +169,37 @@
             return rut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
 
+        function filtrarEmpresas(buscar = "") {
 
-
-        function listarEmpresas() {
-            const url = "{{ url('listar-empresas') }}";
-            const tabla = document.getElementById("tablaEmpresas");
-            const loadingRow = document.getElementById("loadingRow");
+            let url;
+            const tabla = document.getElementById("tablaEmpresas"); 
+            const loadingRow = document.getElementById("loadingRow"); 
             const emptyState = document.getElementById("emptyState");
-            
-            // Mostrar loading
-            loadingRow.classList.remove('hidden');
-            emptyState.classList.add('hidden');
+
+            if(buscar) {
+                url = `{{ url('buscar-empresas') }}/${buscar}`;    
+            }else{
+                url = `{{ url('listar-empresas') }}`;
+            }
             
             fetch(url)
-            .then(handleFetchErrors)
-            .then(data => {
-                console.log(data);
-                if (data.success) {
-                    // Ocultar loading
-                    loadingRow.classList.add('hidden');
-                    
+                .then(handleFetchErrors)
+                .then(data => {
+                    if (data.success) { 
+
+                    // loadingRow.classList.add('hidden'); 
                     if(data.empresas.length === 0) {
-                        // Mostrar estado vacío
-                        emptyState.classList.remove('hidden');
-                        // actualizarEstadisticas([]);
-                    } else {
-                        // Limpiar tabla
-                        tabla.innerHTML = "";
+                        tabla.innerHTML = ""; 
+                        emptyState.classList.remove('hidden'); 
                         
-                        data.empresas.forEach((emp, index) => {
-                            const tr = document.createElement("tr");
-                            tr.classList.add("hover:bg-gray-50", "transition-colors", "duration-200", "cursor-pointer");
-                            
-                            // Efecto de aparición
-                            tr.style.opacity = "0";
-                            tr.style.transform = "translateY(20px)";
+                        
+                        return; 
+                    } else {
+                        emptyState.classList.add('hidden'); 
+                        tabla.innerHTML = ""; 
+                        data.empresas.forEach((emp, index) => { 
+                            const tr = document.createElement("tr"); 
+                            tr.classList.add("hover:bg-gray-50", "transition-colors", "duration-200", "cursor-pointer"); 
                             
                             tr.innerHTML = `
                                 <td class="px-6 py-1.5 whitespace-nowrap">
@@ -219,61 +223,50 @@
                                         Activa
                                     </span>
                                 </td>
-                            `;
-
-                            tabla.appendChild(tr);
+                            `; 
                             
-                            // Animación de aparición
-                            setTimeout(() => {
-                                tr.style.transition = "all 0.3s ease";
-                                tr.style.opacity = "1";
-                                tr.style.transform = "translateY(0)";
-                            }, index * 100);
+                            tabla.appendChild(tr); 
+                            tr.style.transition = "transform 0.2s ease";
+                            tr.addEventListener("click", function () {
+                                tr.style.transform = "scale(0.97)";
 
-                            tr.addEventListener("click", function() {
-                                // Efecto de click
-                                tr.style.transform = "scale(0.98)";
                                 setTimeout(() => {
                                     tr.style.transform = "scale(1)";
-                                    console.log("Cargando datos");
-                                    window.location.href = `/empresa/${emp.uuid}`;
-                                }, 150);
-                            });
-                        });
-                        
+                                }, 100);
 
-                    }
-                }
-            })
-            .catch(error => {
-                console.error("Error al cargar empresas:", error);
-                loadingRow.classList.add('hidden');
-                
-                // Mostrar error
-                tabla.innerHTML = `
-                    <tr>
-                        <td colspan="3" class="px-6 py-12 text-center">
-                            <div class="flex flex-col items-center">
-                                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                                    <i class="fas fa-exclamation-triangle text-2xl text-red-600"></i>
-                                </div>
-                                <h3 class="text-lg font-medium text-gray-900 mb-2">Error al cargar datos</h3>
-                                <p class="text-gray-500 mb-4">No se pudieron cargar las empresas. Inténtalo de nuevo.</p>
-                                <button onclick="listarEmpresas()" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
-                                    <i class="fas fa-redo mr-2"></i>
-                                    Reintentar
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            });
+                                setTimeout(() => {
+                                    window.location.href = `/empresa/${emp.uuid}`;
+                                }, 100);
+                            });
+                        }); 
+                    } 
+                } 
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            console.log(url);
+
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            listarEmpresas();
-        });
+            filtrarEmpresas();
 
+            const buscar1 = document.getElementById("buscarEmpresa1");
+            if (buscar1) {
+                buscar1.addEventListener("input", function() {
+                    filtrarEmpresas(buscar1.value);
+                });
+            }
+
+            const buscar2 = document.getElementById("buscarEmpresa2");
+            if (buscar2) {
+                buscar2.addEventListener("input", function() {
+                    filtrarEmpresas(buscar2.value);
+                });
+            }
+        });
     </script>
 
 @endpush

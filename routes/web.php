@@ -34,7 +34,9 @@ Route::middleware(VerificarSesionUsuario::class)->group(function () {
         Route::get("/listar-representantes", [EmpresasController::class, "getRepre"])->name("getRepresentantes");
         Route::patch("/representantes/update/{idRepre}", [EmpresasController::class, "updateRepre"])->name("repre.update");
         Route::delete("/representantes/delete/{idRepre}", [EmpresasController::class, "deleteRepre"])->name("repre.delete");
-        
+
+        Route::get("/buscar-empresas/{filtro}", [EmpresasController::class, "buscarEmpresa"])->name("empresa.buscar");
+
         Route::get("/empresa/{uuid}", [EmpresaController::class, "index"])->name("empresa.index");
     });
 
