@@ -1,11 +1,21 @@
+{{-- Variable que el componente espera recibir --}}
+@props(["uuid"])
 
-
-<nav class="fixed top-0 left-0 right-0 z-50 bg-white border-gray-200 dark:bg-gray-600 pl-3 pr-3 text-sm shadow-md">
+<nav class="bg-white border-gray-200 dark:bg-gray-600 pl-3 pr-3 text-sm shadow-md">
     <div class="flex flex-wrap items-center justify-start gap-6 mx-auto p-4">
-    <a href="/conta" class="flex items-center space-x-3 rtl:space-x-reverse">
+    <a href="{{ route("empresa.index", $uuid) }}" class="flex items-center space-x-3 rtl:space-x-reverse">
         <span class="self-center text-lg font-semibold whitespace-nowrap dark:text-white hover:text-blue-700 dark:hover:bg-gray-600 dark:hover:text-blue-500">MasContable</span>
     </a>
-    <div class="ml-auto flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+    <div class="ml-auto flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-3">
+      
+        {{-- @if(session("empresaSeleccionada"))
+            <div class="hidden md:block mr-3">
+                <span class="text-sm font-semibold text-white">
+                    Empresa: {{ session("empresaSeleccionada")->razon_social }}
+                </span>
+            </div>
+        @endif --}}
+        
         <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
           <span class="sr-only">Open user menu</span>
           <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo">
