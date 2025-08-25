@@ -13,7 +13,7 @@
 
     @yield("navBarConta")
     
-    <div class="bg-red-500 p-1 mt-16">
+    <div class="bg-red-500 p-1">
         @php
           $indicadoresApi = session("indicadores");
         @endphp
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <main class="flex-1 pt-4">
+    <main class="flex-1">
         @yield("contenido")    
     </main>
     

@@ -4,10 +4,6 @@
     MasContable - Representantes
 @endsection
 
-@section("navBarConta")
-    <x-conta-navbar />
-@endsection
-
 @section("contenido")
  
 <form method="POST" id="formRepre">

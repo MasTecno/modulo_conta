@@ -4,10 +4,6 @@
     MasContable - Empresas
 @endsection
 
-@section("navBarConta")
-    <x-conta-navbar />
-@endsection
-
 @section("contenido")
     
     <form method="POST" id="formEmpresas">
@@ -15,7 +11,7 @@
         
         <!-- Header Section with Actions -->
         <div class="bg-gradient-to-r from-blue-600 to-blue-800 shadow-lg">
-            <div class="container mx-auto px-2 py-2 pb-2">
+            <div class="container mx-auto px-3 py-3 pb-2">
                 <div class="container mx-auto px-5 max-w-7xl flex flex-col sm:flex-row items-start sm:items-center justify-start gap-4">
                     {{-- <div>
                         <h1 class="text-3xl font-bold text-white mb-2">Gestión de Empresas</h1>
@@ -38,7 +34,7 @@
                             <span id="textoGrabar">Grabar</span>
                         </button>
 
-                        <div class="relative">
+                        {{-- <div class="relative">
                             <button type="button" id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover" 
                                     class="inline-flex items-center px-4 py-2 bg-slate-500 hover:bg-slate-600 text-white rounded-lg transition-all duration-200 font-medium text-sm">
                                 <i class="fa-solid fa-download mr-2"></i>
@@ -59,7 +55,12 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> --}}
+
+                        <a href="{{ route("repre.index") }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-all duration-200 font-medium text-sm shadow-sm">
+                            <i class="fa-solid fa-users mr-2"></i>
+                            <span id="textoGrabar">Representantes</span>
+                        </a>
                     </div>
                 </div>
             </div>
